@@ -1,0 +1,44 @@
+{
+  "_comment": "do-more-with-less model table. Edit freely - hot-reloads on mtime change. Chains are ordered: first healthy upstream wins. Put subscriptions/prepaid plans FIRST, metered APIs LAST. Secrets referenced by name from api_keys.json.",
+
+  "suppress_thinking_hosts": ["api.z.ai", "open.bigmodel.cn", "ollama.com"],
+
+  "chains": {
+    "default": [
+      { "model": "your-plan-model", "base_url": "https://your-subscription-provider.example/v1", "key": "plan_one" },
+      { "model": "qwen3:8b", "base_url": "https://ollama.com/v1", "key": "ollama_cloud" },
+      { "model": "deepseek/deepseek-chat", "base_url": "https://openrouter.ai/api/v1", "key": "openrouter" },
+      { "model": "gemini-2.0-flash", "base_url": "https://generativelanguage.googleapis.com/v1beta/openai", "key": "gemini" }
+    ],
+    "fast": [
+      { "model": "your-plan-flash-model", "base_url": "https://your-subscription-provider.example/v1", "key": "plan_one" },
+      { "model": "gemini-2.0-flash", "base_url": "https://generativelanguage.googleapis.com/v1beta/openai", "key": "gemini" }
+    ],
+    "local_only": [
+      { "model": "qwen3:8b", "base_url": "http://localhost:11434/v1", "key": "none" }
+    ],
+    "escalate": [
+      { "model": "your-best-paid-model", "base_url": "https://your-best-provider.example/v1", "key": "best_paid" }
+    ]
+  },
+
+  "pins": {
+    "router-auto": "default",
+    "router-fast": "fast",
+    "router-local": "local_only"
+  },
+
+  "consumers": {
+    "_doc": "Each consumer (matched on X-Consumer header) gets its own chain. Kids' bots get 'fast'; coders get 'default'; anything privacy-sensitive gets 'local_only'.",
+    "default": { "chain": "default" },
+    "coder": { "chain": "default", "escalate_on": ["http_5xx", "network", "auth", "empty_content"] },
+    "chatbot": { "chain": "fast" },
+    "private": { "chain": "local_only" }
+  },
+
+  "breaker": {
+    "rate_limit_ttl": 600,
+    "other_ttl": 120,
+    "max_backoff": 1800
+  }
+}

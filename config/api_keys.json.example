@@ -1,0 +1,8 @@
+{
+  "_comment": "Real keys live here. NEVER commit this file. Referenced by name from models.json.",
+  "plan_one": "PASTE-YOUR-SUBSCRIPTION-API-KEY",
+  "ollama_cloud": "PASTE-YOUR-OLLAMA-CLOUD-KEY",
+  "openrouter": "PASTE-YOUR-OPENROUTER-KEY",
+  "gemini": "PASTE-YOUR-GEMINI-KEY",
+  "best_paid": "PASTE-YOUR-BEST-PAID-KEY"
+}

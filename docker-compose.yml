@@ -1,0 +1,13 @@
+services:
+  router:
+    build: .
+    container_name: do-more-with-less
+    ports:
+      - "8756:8756"
+    volumes:
+      # Mount your config dir here. On first run, copy the .example files
+      # to models.json / api_keys.json in this directory and edit them.
+      - ./config:/app/config
+    environment:
+      - DMWL_PORT=8756
+    restart: unless-stopped
