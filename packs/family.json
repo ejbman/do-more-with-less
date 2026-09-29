@@ -1,0 +1,55 @@
+{
+  "_comment": "FAMILY PACK: kids' bot (X-Consumer: kids) is LOCAL-ONLY - it can never reach a metered endpoint, period. Adults get cheap-cloud then metered as last resort.",
+  "suppress_thinking_hosts": [
+    "ollama.com"
+  ],
+  "chains": {
+    "default": [
+      {
+        "model": "qwen3:8b",
+        "base_url": "https://ollama.com/v1",
+        "key": "ollama_cloud"
+      },
+      {
+        "model": "gemini-2.0-flash",
+        "base_url": "https://generativelanguage.googleapis.com/v1beta/openai",
+        "key": "gemini"
+      }
+    ],
+    "local_only": [
+      {
+        "model": "qwen3:8b",
+        "base_url": "http://localhost:11434/v1",
+        "key": "none"
+      }
+    ],
+    "escalate": [
+      {
+        "model": "gemini-2.5-pro",
+        "base_url": "https://generativelanguage.googleapis.com/v1beta/openai",
+        "key": "gemini"
+      }
+    ]
+  },
+  "pins": {
+    "router-auto": "default",
+    "router-kid": "local_only"
+  },
+  "consumers": {
+    "default": {
+      "chain": "default"
+    },
+    "kids": {
+      "chain": "local_only",
+      "escalate_on": []
+    },
+    "adults": {
+      "chain": "default"
+    }
+  },
+  "breaker": {
+    "rate_limit_ttl": 600,
+    "other_ttl": 120,
+    "max_backoff": 1800
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "_comment": "CODER PACK: coding-plan first. Frontier model only when the plan fails or returns garbage. Point Aider/Cline at the router with X-Consumer: coder.",
+  "suppress_thinking_hosts": [
+    "api.z.ai",
+    "open.bigmodel.cn",
+    "ollama.com"
+  ],
+  "chains": {
+    "default": [
+      {
+        "model": "your-coding-plan-model",
+        "base_url": "https://your-coding-plan.example/v1",
+        "key": "coding_plan"
+      },
+      {
+        "model": "qwen2.5-coder:32b",
+        "base_url": "http://localhost:11434/v1",
+        "key": "none"
+      },
+      {
+        "model": "anthropic/claude-sonnet-4.5",
+        "base_url": "https://openrouter.ai/api/v1",
+        "key": "openrouter"
+      }
+    ],
+    "escalate": [
+      {
+        "model": "your-frontier-model",
+        "base_url": "https://your-frontier-provider.example/v1",
+        "key": "frontier"
+      }
+    ]
+  },
+  "pins": {
+    "router-auto": "default"
+  },
+  "consumers": {
+    "default": {
+      "chain": "default"
+    }
+  },
+  "breaker": {
+    "rate_limit_ttl": 600,
+    "other_ttl": 120,
+    "max_backoff": 1800
+  }
+}

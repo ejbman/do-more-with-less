@@ -1,0 +1,57 @@
+{
+  "_comment": "QUOTA BURNER: maximum subscription utilization. Deep chain - every prepaid resource gets drained before ANY metered call. Metered sits last as pure insurance.",
+  "suppress_thinking_hosts": [
+    "api.z.ai",
+    "open.bigmodel.cn",
+    "ollama.com"
+  ],
+  "chains": {
+    "default": [
+      {
+        "model": "plan-a-primary",
+        "base_url": "https://plan-a.example/v1",
+        "key": "plan_a"
+      },
+      {
+        "model": "plan-b-primary",
+        "base_url": "https://plan-b.example/v1",
+        "key": "plan_b"
+      },
+      {
+        "model": "qwen3:14b",
+        "base_url": "https://ollama.com/v1",
+        "key": "ollama_cloud"
+      },
+      {
+        "model": "qwen3:8b",
+        "base_url": "http://localhost:11434/v1",
+        "key": "none"
+      },
+      {
+        "model": "openai/gpt-5-mini",
+        "base_url": "https://openrouter.ai/api/v1",
+        "key": "openrouter"
+      }
+    ],
+    "escalate": [
+      {
+        "model": "openai/gpt-5",
+        "base_url": "https://openrouter.ai/api/v1",
+        "key": "openrouter"
+      }
+    ]
+  },
+  "pins": {
+    "router-auto": "default"
+  },
+  "consumers": {
+    "default": {
+      "chain": "default"
+    }
+  },
+  "breaker": {
+    "rate_limit_ttl": 900,
+    "other_ttl": 180,
+    "max_backoff": 3600
+  }
+}

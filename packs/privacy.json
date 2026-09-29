@@ -1,0 +1,32 @@
+{
+  "_comment": "PRIVACY PACK: local-only. No chain mentions any external host - prompts physically cannot leave your LAN. Escalate chain is ALSO local (bigger local model).",
+  "chains": {
+    "default": [
+      {
+        "model": "qwen3:8b",
+        "base_url": "http://localhost:11434/v1",
+        "key": "none"
+      }
+    ],
+    "escalate": [
+      {
+        "model": "qwen3:32b",
+        "base_url": "http://localhost:11434/v1",
+        "key": "none"
+      }
+    ]
+  },
+  "pins": {
+    "router-auto": "default"
+  },
+  "consumers": {
+    "default": {
+      "chain": "default"
+    }
+  },
+  "breaker": {
+    "rate_limit_ttl": 600,
+    "other_ttl": 120,
+    "max_backoff": 1800
+  }
+}
